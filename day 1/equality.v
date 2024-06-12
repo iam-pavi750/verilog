@@ -1,0 +1,10 @@
+module equality_op;
+  reg[3:0]i1,i2;
+  initial begin;
+    i1= 4'h6;
+    i2=4'h6;
+    
+    $display("for eqality operator : (==) : (i1=%0h) == (i2=%0h) : %0h" ,i1,i2,i1==i2);
+    $display("for not equality operator :(!=): (i1=%0h) != (i2=%0h) :%0h",i1,i2,i1!=i2);
+  end 
+endmodule
