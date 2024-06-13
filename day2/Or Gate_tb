@@ -11,8 +11,7 @@ module or_tb;
     a =1;b=0;#10
     a=1;b=1;
   end 
+
   
-  dumpfile("or_tb.vme d");
-  dumpvars(1);
   endmodule
   
