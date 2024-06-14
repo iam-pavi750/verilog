@@ -1,0 +1,33 @@
+module half adder(input a,b,output sum,carry);
+  assign sum = a^b;
+  assign carry = a&b;
+endmodule
+module full adder(input a,b,cin,output sum,carry);
+  wire x,y,z;
+  
+  assign half_adder1(.a(a),.b(b),.sum(x),.carry(y));
+  
+  assign half_adder2(.a(x),.b(cin),.sum(sum),carry(z);
+                     or(carry,y,z);
+endmodule
+
+module full adder_tb; 
+  reg a,b,c;
+  wire sum,carry;
+  dut(.a(a),.b(b),.cin(cin),sum(sum),carry(carry));
+                initial begin
+                  #10 a=0;b=0;cin=0;
+                  #10 a=0;b=0;cin=1;
+                  #10 a=0;b=1;cin=0;
+                  #10 a=0;b=1;cin=1;
+                  #10 a=1;b=0;cin=0;
+                  #10 a=1;b=0,cin=1;
+                  #10 a=1;b=1;cin=0;
+                  #10 a=1;b=1;cin=1;
+                 
+                 #30$stop;
+                end
+  initial
+    $monitor("input values : a =%b;b=%b;cin=%b output values :sum =%b,carry=%b",a,b,c,sum,carry);
+                  
+  endmodule    
