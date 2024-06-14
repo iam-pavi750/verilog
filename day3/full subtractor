@@ -1,0 +1,29 @@
+module subtractor(input a,b,c output reg,diff,borrow);
+  always@(a or b or bin)
+    begin
+      diff= a^b^c;
+      borr= ~a&b|(~(a^b)bin);
+ 
+endmodule
+
+
+module full subtractor_tb;
+  reg a,b,c;
+  wire diff,borr;
+  subtractor dut(.a(a),.b(b),.c(c),.diff(diff),.borr(borr));
+                initial begin
+                  #10 a=0;b=0;c=0;
+                  #10 a=0;b=0;c=1;
+                  #10 a=0;b=1;c=0;
+                  #10 a=0;b=1;c=1;
+                  #10 a=1;b=0;c=0;
+                  #10 a=1;b=0,c=1;
+                  #10 a=1;b=1;c=0;
+                  #10 a=1;b=1;c=1;
+                 
+                 #30$stop;
+                end
+  initial
+    $monitor("input values : a =%b;b=%b;c=%b output values : diff =%b,borrow =%b",a,b,c,diff,borr);
+                  
+  endmodule    
