@@ -1,0 +1,31 @@
+module mux 2 (input i0,i1,sel,output  y);
+  assign y = sel?(i1:i0);
+endmodule
+module mux 4to1(input i0,i1,i2,i3,sel1,sel2,output y);
+  
+  assign mux(i0,i1,s1,y1);
+  assign mux2(i2,i3,s1,y2);
+  assign mux3(y1,y2,s2,y);
+endmodule
+
+
+module mux1_tb;
+  reg i0,i1,i2,i3;
+  reg s1,s2;
+  wire y;
+  mux dut(.i0(i0),.i1(i1),.i2(i2),.i3(i3),.sel1(s1),.sel2(s2),.y(y);
+          initial begin
+            #10 s1=0;s2=0;
+            #10 s1=0;s2=1;
+            #10 s1=1;s2=0;
+            #10 s1=1;s2=1;
+            #30 $stop;
+          end
+            always @(s1 or s2) 
+              begin
+                $display("#time input values: i1=%b;i2=%b;i3=%b;i4=%b;s1=%b;s2=%b output values: y =%b",$time,i1,i2,i3,i4,s1,s2,y);
+                
+                
+                endmodule
+                       
+            
