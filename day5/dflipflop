@@ -1,0 +1,19 @@
+module dflipflop (input d, clk output reg q, qbar);
+  always@(posedge clk)
+    begin
+      if(d == 0)
+        q = 0;
+      else if(d == 1)
+        q = 1;
+      qbar = ~q;
+      endmodule
+
+    module dff_1;
+  reg d, clk;
+  wire q ,qbar;
+  
+  dflipflop dut (.d(d),.clk(clk),.q(q),.qbar(qbar);
+                 initial begin
+                   #5  clk = 0 ; d = 0;
+                   #5  clk = 1 ; d = 1;
+                   endmodule
