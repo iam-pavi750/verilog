@@ -1,0 +1,39 @@
+module jkfff (input j, k, clk, rst, output q);
+
+    always @(posedge clk or posedge reset) begin
+      if (reset) 
+            q <= 1'b0;  // Reset value
+    end else (jk) begin
+          if (j ==0 &&k ==0)
+              q <= q;
+          elseif(j == 0 && k ==1)
+              q <= 0;
+          elseif( j ==1 && k == 0)
+              q <= 1;
+          elseif (j == 1 && k ==1)
+               q<=~q;
+               
+           
+        end
+    end
+
+endmodule
+module tff_tb;
+reg clk,data,reset;
+wire q;
+
+tff dut(.clk(clk),.data(data),.reset(reset),.q(q));
+initial begin
+clk=0;
+data=0;
+reset=1;
+
+#5 reset=1;
+#30 reset=0;
+
+$monitor($time,"\tclk=%b\t,data=%b\t,reset=%b\t,q=%b",clk,data,reset,q);
+#100 $finish;
+end
+always #10 clk=~clk;
+always #25 data=~data;
+endmodule
