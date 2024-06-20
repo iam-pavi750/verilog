@@ -1,0 +1,54 @@
+module asyncdflipflop (input d, clk, rst, output reg q);
+  always@(posedge clk or posedge rst)
+    begin
+      if (rst == 0)
+        q <=0;
+       else
+        q <=d;
+      
+    end
+      endmodule
+
+   module dflipflop_tb;
+     reg d;      
+    reg clk ,rst;   
+    wire q;    
+
+    
+    asyncdflipflop dut (
+        .d(d),
+      .clk(clk), .rst(rst),
+        .q(q)
+    );
+
+    
+  initial begin
+    
+    forever begin clk <= 1'b0;#5;
+    clk<=1'b1;#5;
+    end
+  end
+
+    
+    initial begin
+        $dumpfile("dflipflop.vcd");  
+      $dumpvars(1, dflipflop_tb);  
+    end
+  initial 
+    
+        
+    $monitor("t = %t, input values: d = %b, clk =%b, rst =%b, output values: q = %b", $time, d, q,rst,clk);
+        
+        
+      initial begin 
+        rst = 1; d = 0; #10;  
+        rst = 0  ; d = 1; #10;  
+        rst = 1  ; d = 1; #10;  
+        rst = 1  ; d = 1; #10;  
+      
+        rst =1; d = 0;  #10;  
+      $stop;
+        
+    end
+
+endmodule
