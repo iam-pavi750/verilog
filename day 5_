@@ -1,13 +1,12 @@
-module dflipflop (input d, clk, output reg q);
-  initial begin
-    q=1'b0;
-  end
+module dflipflop (input d, clk,output reg q);
   always@(posedge clk)
     begin
-     q<=d;
+
+      q<=d;
     end
       endmodule
-module dflipflop_tb;
+
+   module dflipflop_tb;
      reg d;      
     reg clk;    
     wire q;    
@@ -30,18 +29,21 @@ module dflipflop_tb;
     
     initial begin
         $dumpfile("dflipflop.vcd");  
-      $dumpvars(0, dflipflop_tb);  
+      $dumpvars(1, dflipflop_tb);  
+    end
+  initial 
+    
+        
+        $monitor("t = %t, input values: d = %b, clk =, rst =, output values: q = %b", $time, d, q);
         
         
-        $monitor("t = %t, input values: d = %b, clk = %b, rst =, output values: q = %b", $time, d, clk, q);
-        
-        
-        clk = 0;  d = 0; #10;  
-        clk = 0;  d = 1; #10;  
-        clk = 1;  d = 1; #10;  
-        clk = 0;  d = 1; #10;  
+      initial begin  d = 0; #10;  
+d = 1; #10;  
+d = 1; #10;  
+d = 1; #10;  
       
-        clk = 0; d = 0;  #10;  
+         d = 0;  #10;  
+      $stop;
         
     end
 
