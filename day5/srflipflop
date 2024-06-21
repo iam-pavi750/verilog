@@ -1,3 +1,5 @@
+module srflipflop(input s,r,clk,rst output q)
+
 always@(posedge clk or posedge rst )begin
    
     if(rst)begin
