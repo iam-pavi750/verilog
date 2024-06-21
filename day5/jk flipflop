@@ -1,39 +1,61 @@
-module jkfff (input j, k, clk, rst, output q);
 
-    always @(posedge clk or posedge reset) begin
-      if (reset) 
-            q <= 1'b0;  // Reset value
-    end else (jk) begin
-          if (j ==0 &&k ==0)
-              q <= q;
-          elseif(j == 0 && k ==1)
-              q <= 0;
-          elseif( j ==1 && k == 0)
-              q <= 1;
-          elseif (j == 1 && k ==1)
-               q<=~q;
-               
-           
-        end
+module jkflipflop(input j, k, clk, rst, output reg q);
+
+ 
+  always@(posedge clk or posedge rst) begin
+   
+    if(rst)begin
+       q <= 1'b0;
+   end
+     else begin
+       case ({j,k})
+        2'b00: q <= 0;  //previous satte
+        2'b01: q <= 0;  //reset
+        2'b10: q <= 1;  //set
+        2'b11: q <= ~q;  //toggle
+      endcase
+   end
+  end
+  endmodule
+module jkflipflop_tb;
+     reg j,k,clk ,rst;   
+    wire q;    
+
+    
+    jkflipflop dut (
+      .j(j),.k(k),
+      .clk(clk), .rst(rst),
+      .q(q)); 
+
+    
+  initial begin
+    
+    forever begin clk = 1'b0;#5;
+      clk =1'b1;#5; end
     end
+ 
 
-endmodule
-module tff_tb;
-reg clk,data,reset;
-wire q;
-
-tff dut(.clk(clk),.data(data),.reset(reset),.q(q));
-initial begin
-clk=0;
-data=0;
-reset=1;
-
-#5 reset=1;
-#30 reset=0;
-
-$monitor($time,"\tclk=%b\t,data=%b\t,reset=%b\t,q=%b",clk,data,reset,q);
-#100 $finish;
-end
-always #10 clk=~clk;
-always #25 data=~data;
-endmodule
+    
+   initial begin
+     $dumpfile("jklipflop.vcd");  
+     $dumpvars(1, jkflipflop_tb);  
+    
+  end //
+    
+    
+  initial begin
+    $monitor("t = %t, input values: j= %b,k=%b clk =, rst =%b, output values: q = %b", $time, j,k, q,rst);
+        
+     rst = 1; j=0;  k=1; //reset
+    #10 rst = 0; j =1;  k=0;
+         j = 0;k =0; #10;  
+         j = 0;k=1; #10;  
+         j = 1;k=0; #10;  
+         j= 1;k= 1; #10;  
+         $stop;
+    
+    
+    
+  end
+    endmodule
+    
