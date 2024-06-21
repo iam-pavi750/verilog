@@ -1,63 +1,65 @@
-
-    
-      
-         
-      module srflipflop (input s, r, clk,rst, output reg q);
-always@(posedge clk )
-   begin        
-     if(rst)
-       q <=1'b0;
+always@(posedge clk or posedge rst )begin
+   
+    if(rst)begin
+       q <=1'b1;
    end
      else begin
       case ({s,r})
         2'b00: q <= 0;  //previous satte
-        2'b01: q <= 1;  //reset
-        2'b10: q <= 0;  //set
-        
-        2'b11: q <= x;  //invalid
+        2'b01: q <= 0;  //reset
+        2'b10: q <= 1;  //set
+        2'b11: q <='x;  //invalid
       endcase
    end
+  end
 endmodule
-
 module srflipflop_tb;
-     reg s, r;      
-    reg clk ,rst;   
+     reg s,r,clk ,rst;   
     wire q;    
 
     
     srflipflop dut (
       .s(s),.r(r),
       .clk(clk), .rst(rst),
-      .q(q))
+      .q(q)); 
 
     
   initial begin
     
-    forever begin clk <= 1'b0;#5;
-    clk<=1'b1;#5;
+    forever begin clk = 1'b0;#5;
+      clk =1'b1;#5; end
     end
  
 
     
-    initial begin
+   initial begin
       $dumpfile("srflipflop.vcd");  
       $dumpvars(1, srflipflop_tb);  
-    end
-  initial begin
     
+  end //
+    
+    
+  initial begin
+    $monitor("t = %t, input values: s= %b,r=%b clk =, rst =%b, output values: q = %b", $time, s,r, q,rst);
         
-    $monitor("t = %t, input values: s= %b,r=%b clk =%b, rst =%b, output values: q = %b, $time, s,r, q,rst,clk);
-        
-        
-       
-        rst = 1; s = 0;r =0; #10;  
-        rst = 0  ; s = 1;r=0; #10;  
-        rst = 1  ; s = 0;r=1; #10;  
-        rst = 1  ; s= 1;r= 1; #10;  
+      rst = 0; s=0; r=1;
+     #10 rst = 1; s=1;r=0;#10;
+         s = 0;r =0; #10;  
+         s = 1;r=0; #10;  
+         s = 0;r=1; #10;  
+         s= 1;r= 1; #10;  
+         $stop;
+    
+    
+    
+  end
+    endmodule
+    
+    
       
          
-      $stop;
-        
-    end
 
-endmodule
+     
+
+    
+
