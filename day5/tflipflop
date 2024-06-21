@@ -1,46 +1,47 @@
-module dflipflop (input d, clk,output reg q);
-  always@(posedge clk)
-    begin
-
-      q<=d;
-
-    end
-      endmodule
-
-module dflipflop_tb;
-     reg d;      
-    reg clk;    
+module tflipflop_tb;
+     reg t,clk;   
     wire q;    
 
     
-    dflipflop dut (
-        .d(d),
-        .clk(clk),
-        .q(q)
-    );
+    tff dut (
+      .t(t),.clk(clk),.q(q)); 
 
     
   initial begin
     
-    forever begin clk <= 1'b0;#5;
-    clk<=1'b1;#5;
+    forever begin clk = 1'b0;#5;
+      clk =1'b1;#5; end
     end
-  end
+ 
 
-      initial begin
-        $dumpfile("dflipflop.vcd");  
-      $dumpvars(1, dflipflop_tb);  
-    end
-  initial 
-   $monitor("t = %t, input values: d = %b, clk =, rst =, output values: q = %b", $time, d, q);
-initial begin  d = 0; #10;  
-d = 1; #10;  
-d = 1; #10;  
-d = 1; #10;  
+    
+   initial begin
+     $dumpfile("tff.vcd");  
+     $dumpvars(1, tflipflop_tb);  
+    
+  end 
+    
+   initial begin
+    $monitor("t = %t, input values: t =%b clk =%b, output values: q = %b", $time, t, clk,q);
+  
       
-         d = 0;  #10;  
-      $stop;
-        
-    end
+#10 t = 0;
+    #10 t = 1;
+    #10 t=1;
+   #10 t=0;
+    $stop;
+    
+    
+  end
+    endmodule
+    module tff( input t, clk ,output reg q);
+always@(posedge clk)begin
+  if(t == 0)
+    q <= t;
+  else if (t ==1)
+    q <= ~t;
+end
+    endmodule
+  
 
-endmodule
+   
