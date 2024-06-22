@@ -1,0 +1,28 @@
+module mux1(input i0, i1, sel, output y);
+  assign y = sel? i1:i0;
+endmodule
+  module mux111_tb;
+  reg i0,i1;
+  reg sel;
+  wire y;
+  mux1 dut(.i0(i0),.i1(i1),.sel(sel),.y(y));
+  
+  initial begin
+    $dumpfile("mux1.vcd");
+    $dumpvars(1,mux111_tb);
+  end
+  
+  initial begin
+    $display("time = %t ,input values : i0 = %b,i1 = %b,sel = %b, output values:  y = %b",i0,i1,sel,y);
+  
+    
+    
+     #2 i0 = 0;i1 =1;
+     #2 sel = 0;
+    #2 sel = 1;
+  
+  #2 $stop;
+  end
+  
+ 
+endmodule
