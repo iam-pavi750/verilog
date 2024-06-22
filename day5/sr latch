@@ -1,0 +1,39 @@
+module srlatch(input s ,r , en,output reg q);
+  always@(s or r or en)begin
+    if(en)
+      case({s,r})
+        2'b00 : q<= q;
+        2'b01 : q<= 0;
+        2'b10 : q<= 1;
+        2'b11 : q<= 'x;
+      endcase
+    else 
+          q<=0;
+  end
+endmodule
+    
+     module srlatch1();
+  reg s,r,en;
+  wire q;
+  srlatch dut (.s(s),.r(r),.en(en),.q(q));
+    
+    initial begin
+       $dumpfile("srlatch.vcd");
+          $dumpvars(1);
+    end
+             
+        initial begin
+          $monitor("input values : s = %b,r = %b;en =%b, output values : q = %b",s,r,en,q);
+       
+        
+          #10 en =1; s= 1;r = 1;
+          #10 en = 1; s = 0 ; r = 1;
+          #10 en = 0; s = 1; r= 0;
+          #10 en = 1; s = 1;  r=1;
+          
+          $stop;
+       end
+          endmodule
+      
+  
+  
