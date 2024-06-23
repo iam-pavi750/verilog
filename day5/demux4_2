@@ -1,0 +1,27 @@
+module demux2(input i ,sel ,output y0, y1);
+  assign{y0,y1} = sel?{1'b0,i}:{i,1'b0};
+endmodule
+
+module demux1(input i,sel0,sel1, output reg y0,y1,y2,y3);
+  wire z1,z2;
+  demux2 x1(i,sel0,z1,z2);
+  demux2 x2 (z1,sel1,y0,y1);
+  demux2 x3 (z2,sel1,y2,y3);
+endmodule
+
+module demux;
+  reg i,sel0, sel1;
+  wire y0, y1, y2, y3;
+  
+  demux1 uut (.i(i),.sel0(sel0),.sel1(sel1),.y0(y0),.y1(y1),.y2(y2),.y3(y3));
+   
+ initial begin
+   
+   $monitor("input values : i= %b, sel0 = %b,sel1 = %b,output values : y0 = %b,y1 = %b,y1 = %b,y2=%b,y3=%b",i,sel0,sel1,y0,y1,y2,y3);
+   #10 sel0 = 0; sel1 = 0; i = 0;
+   #10 sel0 = 0; sel1 = 1; i = 1;
+   #10 sel0 = 1; sel1 = 0; i = 0;
+   #10 sel0 = 1; sel1 = 1; i = 1;
+ end
+   endmodule
+   
