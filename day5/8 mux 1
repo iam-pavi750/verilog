@@ -1,0 +1,53 @@
+module mux4(input sel2, sel1, sel0, i0, i1, i2, i3, i4, i5,i6,i7, output reg y);
+
+  always@ (i0 or i1 or i2 or i3 or i4 or i5 or i6 or i7 or sel2 or sel1 or sel0) begin
+    if(sel2==0 & sel1==0 & sel0==0)
+    y = i0;
+    else if( sel2==0 & sel1==0 & sel0==1)
+    y = i1;
+    else if( sel2==0 & sel1==1 & sel0==0)
+    y = i2;
+    else if( sel2==0 & sel1==1 & sel0==1)
+    y = i3;
+    else if( sel2==1 & sel1==0 & sel0==0)
+    y = i4;
+    else if( sel2==1 & sel1==0 & sel0==1)
+    y = i5;
+    else if( sel2==0 & sel1==1 & sel0==1)
+    y = i6;
+    if(sel2==1 & sel1==1 & sel0==1)
+    y = i7;
+ 
+
+end
+endmodule
+
+
+
+module mux_8_1_tb;
+reg sel2,sel1,sel0;
+reg i0,i1,i2,i3,i4,i5,i6,i7;
+wire y;
+  mux4 uut (.sel2(sel2),.sel1(sel1),.sel0(sel0),.i0(i0),.i1(i1),.i2(i2),.i3(i3),.i4(i4),.i5(i5),.i6(i6),.i7(i7),.y(y));
+initial begin
+  
+  $dumpfile("mux4.vcd");
+  $dumpvars((1),mux_8_1_tb);
+  
+  
+               
+  $monitor("sel2 =%b, sel1 = %b,sel0 = %b -> i0 = %0b, i1 = %b ,i2 = %b, i3 = %0b,i4 = %b,i5 =%b,i6 =%b ,i7 =%b -> y = %0b", sel2,sel1,sel0,i0,i1,i2,i3,i4,i5,i6,i7, y);
+  
+  i0=0;i1 =1;i2=1;i3=1;i4=0;i5=1;i6=0;i7=0;
+    
+  #10  sel2 = 0; sel1 = 0;  sel0 = 0;
+  #10   sel2 = 0; sel1 = 0;  sel0 = 1;         
+  #10    sel2 = 0; sel1 = 1;  sel0 = 0;   
+  #10 sel2 = 0; sel1 = 1;  sel0 = 1;   
+   #10 sel2 = 1; sel1 = 0;  sel0 = 0;   
+   #10 sel2 = 1; sel1 = 0;  sel0 = 1;   
+   #10 sel2 = 0; sel1 = 1;  sel0 = 1;   
+   #10 sel2 = 1; sel1 = 1;  sel0 = 1;   
+  
+end
+endmodule 
