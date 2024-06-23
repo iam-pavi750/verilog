@@ -1,0 +1,40 @@
+module decoder(input a,b,c,output reg y0,y1,y2,y3,y4,y5,y6,y7);
+  always@(a,b,c)begin
+    case({a,b,c})
+      3'b000: y0 = 10000000;
+      3'b001: y1 = 01000000;
+      3'b010: y2 = 00100000;
+      3'b011: y3 = 00010000;
+      3'b100: y4 = 00001000;
+      3'b101: y5 = 00000100;
+      3'b011: y6 = 00000010;
+      3'b111: y7 = 00000001;
+    endcase
+  end
+    endmodule
+
+    module tb;
+  reg a,b,c;
+  wire y0,y1,y2,y3,y4,y5,y6,y7;
+  decoder uut (.a(a),.b(b),.c(c),.y0(y0),.y1(y1),.y2(y2),.y3(y3),.y4(y4),.y5(y5),.y6(y6),.y7(y7));
+  
+     initial begin
+       
+       $dumpfile("encoder.vcd");
+       $dumpvars((1),tb);
+     end
+       initial begin
+         $monitor("input values: a=%b,b=%b,c=%b,output values : y0 =%b,y1=%b,y2=%b,y3=%b,y4=%b,y5=%b,y6=%b,y7=%b",a,b,c,y0,y1,y2,y3,y4,y5,y6,y7);
+       
+         {a,b,c} = 000; #2;
+         {a,b,c} = 001; #2;
+         {a,b,c} = 010; #2;
+         {a,b,c} = 011; #2;
+         {a,b,c} = 100; #2;
+         {a,b,c} = 101; #2;
+         {a,b,c} = 110; #2;
+         {a,b,c} = 111; #2;
+                  
+                
+                end
+                endmodule
