@@ -1,26 +1,38 @@
-// Code your testbench here
-// or browse Examples
-module encoder_2;
-  reg [7:0]i;
-  wire [2:0]o;
-  encoder dut(.i(i),.o(o));
-                initial begin
-   
-    #10 i = 8'b00000001;
-    #10 i = 8'b00000010;
-    #10 i = 8'b00000100;             
-    #10 i = 8'b00001000;            
-   #10  i = 8'b00010000;             
-     #10 i = 8'b0100000 ;            
-     #10 i = 8'b10000000;             
-     #10$stop;             
-                  
-   end 
-   always @(o)
-     $display("$time =%0b\t input = %0b\t output = %0b\t",$time,i,o);
-  $dumpfile("encoder.vcd");
-  $dumpvars(1);
-endmodule
+
+module encoder(input[7:0]d,output reg [2:0]y);
+  always @(d)begin
+    case({d})
+      8'b0000_0001: y =000;
+      8'b0000_001x: y =001;
+      8'b0000_01xx: y =010;
+       8'b0000_1xxx: y =011;
+       8'b0001_xxxx: y =100;
+       8'b001x_xxxx: y =101;
+       8'b01xx_xxxx: y =011;
+       8'b1xxx_xxxx: y =111;
+     
+    endcase
+      end
+    
+  endmodule
+
+module tb;
+  reg [7:0]d;
+  wire [2:0]y;
+  encoder uut (.d(d),.y(y));
+  
+     initial begin
+       
+       $dumpfile("encoder.vcd");
+       $dumpvars((1),tb);
+     end
+       initial begin
+       $monitor("input values: d=%b,output values : y =%b",d,y);
+       repeat (8)begin
+                  d=$random;#1;
+                end
+                end
+                endmodule
   
     
     
