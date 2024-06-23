@@ -1,0 +1,23 @@
+module demux1(input i, sel, output y0, y1);
+  assign {y0,y1} = sel?{ 1'b0,i}:{i,1'b0};
+endmodule
+
+  module demux;
+  reg i,sel;
+  wire y0,y1;
+  demux1 uut(.i(i),.sel(sel),.y0(y0),.y1(y1));
+  initial begin
+    $monitor("input values: i =%b, sel =%b,y0 =%b,y1 =%b",i,sel,y0,y1);
+  end
+  initial begin
+    $dumpfile("demux1.vcd");
+    $dumpvars((1),demux);
+     
+    i = 0; i =1;
+    #5 sel = 0;
+    #5 sel = 1;
+    
+  end
+    endmodule
+    
+    
