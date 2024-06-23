@@ -1,0 +1,37 @@
+module mux4to1(input sel, i0, i1, output reg y);
+  assign y = sel?i1:i0;
+endmodule
+
+module mux4to2(input i0,i1,i2,i3,sel1,sel0,output reg y);
+  wire y0,y1;
+  mux4to1 m1 (i0,i1,sel1,y0);
+  mux4to1 m2(i2,i3,sel1,y1);
+  mux4to1 m3 (y0,y1,sel0,y);
+endmodule
+
+module mux_4_1_tb;
+ reg i0,i1,i2,i3; 
+reg sel1,sel0;
+
+wire y;
+  mux4to2 uut(.i0(i0),.i1(i1),.i2(i2),.i3(i3),.sel1(sel1),.sel0(sel0),.y(y));
+initial begin
+  
+  $dumpfile("mux4to1.vcd");
+  $dumpvars((1),mux_4_1_tb);
+  
+  
+               
+  $monitor(" sel1 = %b,sel0 = %b -> i0 = %0b, i1 = %b ,i2 = %b, i3 = %0b -> y = %0b", sel1,sel0,i0,i1,i2,i3, y);
+  
+  i0=0;i1 =1;i2=1;i3=0;
+    
+  #10  sel1 = 0;  sel0 = 0;
+  #10  sel1 = 0;  sel0 = 1;         
+  #10  sel1 = 1;  sel0 = 0;   
+  #10  sel1 = 1;  sel0 = 1;   
+   
+    
+  
+end
+endmodule 
