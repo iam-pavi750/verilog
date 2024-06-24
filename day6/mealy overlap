@@ -1,0 +1,81 @@
+module mealyoverlap(input bit clk, rst, a, output reg out);
+  
+  reg [1:0] state,nextstate;
+  parameter s0 = 2'b00;
+  parameter s1 = 2'b01;
+  parameter s2 = 2'b10;
+  parameter s3 = 2'b11;
+   
+ 
+  always @(posedge clk or posedge rst)begin
+    if(rst==0)
+      state<=s0;
+    else 
+      state<=nextstate;
+   
+  end
+  always@(*)begin
+    case(state)
+      s0:begin
+        out<=1'b0;
+        if(a==1) nextstate <= s1;
+        else nextstate<= s0;
+      end
+      s1:begin
+        out<=1'b0;
+        if(a==0) nextstate <=s2;
+        else nextstate <= s1;
+      end
+      s2:begin
+        out<=1'b0;
+        if(a==1) nextstate <=s3;
+        else nextstate<=s0;
+      end
+      s3:begin
+        
+        if(a==0)out<=1'b1;
+        else out<=1'b0;
+        
+        if(a==0) nextstate <=s0;
+        else nextstate <=s2;
+      end
+      default : begin
+        out <=1'b0;
+        next state <=s0;
+      end
+        endcase
+      
+      endmodule
+      
+      
+      module mealyoverlaptb;
+  reg clk, rst, a;         
+  wire out;
+  
+  mealyoverlap uut (.clk(clk),.rst(rst),.a(a),.out(.out));
+  initial begin
+    dumpfile("mealyoverlap.vcd");
+    dumpvars((1),mealyoverlaptb);
+  end
+  initial
+    forever begin clk =1'b0;#5
+      else clk = 1'b1;#5
+      
+    end
+  initial begin
+    clk =0; rst = 0;a=1;
+   #2 rst =1;
+     #2 a=1;
+    #2  a=0;
+     #2 a=1;
+  #2a=0;
+  #2a=1;
+    #2  a=0;
+  #2a=1;
+    #2  a=0;
+  #2a=1;
+    $dislay("input values : a=%b,clk =%b,rst =%b,output values : out=%b",clk,rst,a,out);
+  end
+endmodule
+  
+  
