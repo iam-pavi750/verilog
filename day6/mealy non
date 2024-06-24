@@ -1,131 +1,90 @@
-module mealy_non(input clk,rst_n,a,output out);
+
+    module mealy_non1010(input clk,rst_n,a,output out);
+  
+  bit[3:0]state,nextstate;
   parameter s0 =2'b00;
   parameter s1 =2'b01;
   parameter s2 =2'b10;
   parameter s3 =2'b11;
   
-  bit[3:0]state,nextstate;
+  
   
  always@(posedge clk or posedge rst)begin
-    if(rst==0)begin
-      state = s0;
-    else
-      nextstate = s1;
+   if(rst==0) begin state <= s0;
+   end
+   else state <= nextstate;
+ end
+  
+  always@(state)begin
+   case( state)
+   
+  s0:begin 
+    out <= 1'b0;
+    if(a==1) next state <= s1;
+    else next state <= s0;
     end
-  end
-  always@(*)
-    s0:begin
-       out <= 1'b0;
-    if(a==1)
-      next state= s1;
-    else
-      next state = s0;
-    end
+       
   s1:begin
-      out<=1'b0;
-    if(a==0)
-      next state = s2;
-    else
-      next state = s1;
-  end
+    out<=1'b0;
+    if(a==0) next state <= s2;
+    else next state <= s1;
+    end
+   
   s2: begin
     out <=1'b0;
-  if(a==1)
-    next state = s3;
-  else
-    next state = s0;
-  end
+    if(a==1) next state <= s3;
+    else next state <= s0;
+    end
+   
   s3:begin
-     out<=1'b1;
-   else
-     out<=1'b0;
-   if(a==0)
-     next state =s0;
-   else
-     next state = s1;
+    if(a==0) out<=1'b1;
+   else out<=1'b0;
+    
+    if(a==0) next state <=s0;
+   else next state <= s1;
+    
  default : begin
     out<= 1'b0;
-       next state = s0;
-   endcase
-   assign out=(state==s3)&&(a==0)?1:0;
+    next state <= s0;
+ end
+   
+     //assign out=(state==s3)&&(a==0)?1:0;
  end 
-    endmodule
-   
-      
-      
-    module mealy_non(input clk,rst_n,a,output out);
-  parameter s0 =2'b00;
-  parameter s1 =2'b01;
-  parameter s2 =2'b10;
-  parameter s3 =2'b11;
-  
-  bit[3:0]state,nextstate;
-  
- always@(posedge clk or posedge rst)begin
-    if(rst==0)begin
-      state = s0;
-    else
-      nextstate = s1;
-    end
-  end
-  always@(*)
-    s0:begin
-       out <= 1'b0;
-    if(a==1)
-      next state= s1;
-    else
-      next state = s0;
-    end
-  s1:begin
-      out<=1'b0;
-    if(a==0)
-      next state = s2;
-    else
-      next state = s1;
-  end
-  s2: begin
-    out <=1'b0;
-  if(a==1)
-    next state = s3;
-  else
-    next state = s0;
-  end
-  s3:begin
-     out<=1'b1;
-   else
-     out<=1'b0;
-   if(a==0)
-     next state =s0;
-   else
-     next state = s1;
- default : begin
-    out<= 1'b0;
-       next state = s0;
-   endcase
-   assign out=(state==s3)&&(a==0)?1:0;
- end 
-    endmodule
-   
-      
-      
-    module nonover(input clk,rst_n,a,output out);
-  reg clk,rst_n,a;
-  wire out;
-   
-  mealy_non(.clk(clk),.rst_n(rst_n),.a(a),.out(out));
-   initial begin
-     forever begin clk =1'b0;#5
-       clk =1'b1;
      end
-     clk = 0; rst_n =0;a=1;
-     a=0;
-     a=1;
-     a=0;
-     a=1;
-     a=0;
-     a=1;
-     a=0;
-     a=1;
-     a=0;
-     $finish
-     
+   endcase
+  
+    endmodule
+
+
+module nomealy_1010_tb;
+reg clk,rst,a; 
+wire out;
+
+parameter delay = 1;
+
+
+
+
+
+  mealy_non1010 uut(.clk(clk),.rst(rst),.a(a),.out(out));
+always #4 clk=~clk;
+initial begin
+clk=0;rst=0; a=1;
+#2 rst=1;
+
+#2 a=1;
+#2 a=0;
+#2 a=1;
+#2 a=0;
+#2 a=1;
+#2 a=1;
+#2 a=0;
+#2 a=1;
+#2 a=0;
+#2 a=1;
+#2 a=0;
+#2 a=1;
+
+$finish;
+end
+endmodule
