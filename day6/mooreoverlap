@@ -1,0 +1,80 @@
+module mooreoverlap1001(input  clk, rst, a, output reg out);
+  
+  reg [1:0] state,nextstate;
+  parameter s0 = 2'b00;
+  parameter s1 = 2'b01;
+  parameter s2 = 2'b10;
+  parameter s3 = 2'b11;
+   
+ 
+  always@(posedge clk or posedge rst)begin
+    if(rst==0)
+      state<=s0;
+    else 
+      state<=nextstate;
+    end
+  always@(*)begin
+    case(state)
+      s0:begin
+        if(a==1) nextstate <= s1;
+        else nextstate<= s0;
+      end
+      
+      s1:begin
+        if(a==0) nextstate <=s2;
+        else nextstate <= s1;
+      end
+      
+      s2:begin
+        if(a==0) nextstate <=s3;
+        else nextstate<=s0;
+      end 
+      
+      s3:begin
+        if(a==1) nextstate <=s4;
+        else nextstate <=s0;
+      end
+      
+      s4:begin
+        if(a==1) next state <= s2;
+        else nextstate <= s0;
+        end
+        endcase
+        end
+
+  always@(*)begin
+    case(s)
+       s0: y<=0;
+       s1: y<=1;
+       s2: y<=1:
+       s3: y<=0;
+      
+      end
+        endcase
+      
+      endmodule
+      
+      
+      module moore1001;
+reg clk,rst,a;
+wire y;
+
+  mooreoverlap 1001 uut (.clk(clk),.rs(rst),.a(a),.y(y));
+always #5 clk=~clk;
+initial begin
+rst=0; clk=0;
+
+#7 rst=1;
+
+#10 a=1;
+#10 a=0;
+#10 a=1;
+#10 a=1;
+#10 a=0;
+#10 a=1;
+#10 a=1;
+#10 a=0;
+
+$finish;
+end
+endmodule
