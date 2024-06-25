@@ -1,7 +1,6 @@
-
-    module mealy_non1010(input clk,rst_n,a,output out);
+module mealy_non1010(input clk,rst,a,output reg out,output reg [3:0]nextstate);
   
-  bit[3:0]state,nextstate;
+  bit[3:0]state;
   parameter s0 =2'b00;
   parameter s1 =2'b01;
   parameter s2 =2'b10;
@@ -9,49 +8,132 @@
   
   
   
- always@(posedge clk or posedge rst)begin
-   if(rst==0) begin state <= s0;
-   end
+ always@(posedge clk )begin
+   if(rst==0) begin
+     state <= s0;
+     end
    else state <= nextstate;
- end
+     end
   
-  always@(state)begin
+  always@(state or a)begin
    case( state)
    
   s0:begin 
-    out <= 1'b0;
-    if(a==1) next state <= s1;
-    else next state <= s0;
+    
+    if(a==1)begin 
+     out <= 1'b0; 
+      nextstate <= s1;
+    end
+    else nextstate <= s0;
     end
        
   s1:begin
-    out<=1'b0;
-    if(a==0) next state <= s2;
-    else next state <= s1;
+    
+    if(a==0)begin 
+      out<=1'b0;
+      nextstate <= s2;
+    end
+    else nextstate <= s1;
     end
    
   s2: begin
-    out <=1'b0;
-    if(a==1) next state <= s3;
-    else next state <= s0;
+    
+    if(a==1)begin
+      out <=1'b0;
+      nextstate <= s3;
+    end
+    else nextstate <= s0;
     end
    
   s3:begin
-    if(a==0) out<=1'b1;
-   else out<=1'b0;
-    
-    if(a==0) next state <=s0;
-   else next state <= s1;
-    
+    if(a==0)begin
+     out<=1'b1;   
+    nextstate <=s0;
+    end
+    else 
+     out<=1'b0;
+     nextstate <= s1;
+  end  
  default : begin
     out<= 1'b0;
-    next state <= s0;
+    nextstate <= s0;
  end
    
      //assign out=(state==s3)&&(a==0)?1:0;
- end 
+    endcase
      end
-   endcase
+    
+
+  
+    endmodule
+
+
+module mealy_non1010(input clk,rst,a,output reg out,output reg [3:0]nextstate);
+  
+  bit[3:0]state;
+  parameter s0 =2'b00;
+  parameter s1 =2'b01;
+  parameter s2 =2'b10;
+  parameter s3 =2'b11;
+  
+  
+  
+ always@(posedge clk )begin
+   if(rst==0) begin
+     state <= s0;
+     end
+   else state <= nextstate;
+     end
+  
+  always@(state or a)begin
+   case( state)
+   
+  s0:begin 
+    
+    if(a==1)begin 
+     out <= 1'b0; 
+      nextstate <= s1;
+    end
+    else nextstate <= s0;
+    end
+       
+  s1:begin
+    
+    if(a==0)begin 
+      out<=1'b0;
+      nextstate <= s2;
+    end
+    else nextstate <= s1;
+    end
+   
+  s2: begin
+    
+    if(a==1)begin
+      out <=1'b0;
+      nextstate <= s3;
+    end
+    else nextstate <= s0;
+    end
+   
+  s3:begin
+    if(a==0)begin
+     out<=1'b1;   
+    nextstate <=s0;
+    end
+    else 
+     out<=1'b0;
+     nextstate <= s1;
+  end  
+ default : begin
+    out<= 1'b0;
+    nextstate <= s0;
+ end
+   
+     //assign out=(state==s3)&&(a==0)?1:0;
+    endcase
+     end
+    
+
   
     endmodule
 
@@ -59,32 +141,36 @@
 module nomealy_1010_tb;
 reg clk,rst,a; 
 wire out;
+  wire [3:0]nextstate;
 
-parameter delay = 1;
-
-
-
+//parameter delay = 1;
 
 
-  mealy_non1010 uut(.clk(clk),.rst(rst),.a(a),.out(out));
+  mealy_non1010 uut(.clk(clk),.rst(rst),.a(a),.out(out),.nextstate(nextstate));
 always #4 clk=~clk;
-initial begin
-clk=0;rst=0; a=1;
-#2 rst=1;
+  initial begin
+    $dumpfile("mealy_non1010.vcd");
+    $dumpvars((1),nomealy_1010_tb);
 
-#2 a=1;
-#2 a=0;
-#2 a=1;
-#2 a=0;
-#2 a=1;
-#2 a=1;
-#2 a=0;
-#2 a=1;
-#2 a=0;
-#2 a=1;
-#2 a=0;
-#2 a=1;
+  
+    $monitor("time =%t,input values: clk =%b,rst =%b,a=%b,output values: out=%b,nextstate=%0d",$time,clk,rst,a,out,nextstate);
+     #100 $finish;
+  end
+  initial begin
+clk=0;rst=0; //a=1;
+#6 rst=1;
+ a=1;
+#9 a=0;
+#7 a=1;
+#7 a=0;
+//#10 a=0;
 
-$finish;
+
+ /* initial begin
+    $monitor("time =%t,input values: clk =%b,rst =%b,a=%b,output values: out=%b",$time,clk,rst,a,out);
+  end*/
+
 end
 endmodule
+
+
