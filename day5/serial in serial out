@@ -1,0 +1,46 @@
+module shift(input clk, rst,si,output reg so);
+  reg [3:0]g;
+  always@(posedge clk)begin
+    if(rst)begin
+      g<=4'b0000;
+    end
+      else begin
+        g<=g>>1;
+      g[3]<=si;
+      end
+    
+  end
+  assign so = g[0];
+endmodule
+      
+      module siso;
+  reg clk,rst,si;
+  wire so;
+  
+  
+  shift uut(.clk(clk),.rst(rst),.si(si),.so(so));
+  
+  initial begin
+    clk=0;
+    forever #5 clk=~clk;
+  end
+  
+  
+  
+  initial begin
+     rst=1;
+     si=0; #10;
+            
+    rst =0;
+     si=0;#10;
+    si=1;#10;
+    si=1;#10;
+    si=1;#10;
+    $finish; #30;
+  end
+    
+    initial begin
+      $dumpfile("shift.vcd");
+      $dumpvars((1),siso);
+    end
+endmodule
