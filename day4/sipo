@@ -1,0 +1,40 @@
+  module sipo(x,clk,y);
+input x,clk;
+reg [3:0]a;
+output wire [3:0]y;
+always@(posedge clk)begin
+a[3]<=a[2];
+a[2]<=a[1];
+a[1]<=a[0];
+a[0]<=x;
+end 
+
+
+assign y=a;
+
+endmodule
+
+module sipo_tb;
+reg x,clk;
+wire [3:0]y;
+sipo uut(x,clk,y);
+initial begin
+ clk=1'b0;
+ forever #5 clk=~clk;
+ end
+  
+    initial begin
+      $dumpfile("sipo.vcd");
+      $dumpvars((1),sipo_tb);
+  end
+ initial begin
+$monitor("x=%b,y=%b",x,y);
+ x=1;#10;
+ x=0;#10;
+ x=0;#10;
+ x=1;#10;
+ #40;
+ $finish;
+ end
+
+ endmodule
