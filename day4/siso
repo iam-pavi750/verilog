@@ -1,0 +1,49 @@
+module siso_shift_register (
+    input wire x,       // Serial input
+    input wire clk,     // Clock input
+    output reg y        // Serial output
+);
+    reg [2:0] a; // 3-bit shift register storage
+
+    // Shift register logic
+    always @(posedge clk) begin
+        a[2] <= a[1]; // Shift right
+        a[1] <= a[0];
+        a[0] <= x;    // Insert new bit into LSB
+    end
+
+    // Output the MSB
+    always @(posedge clk) begin
+        y <= a[2];
+    end
+endmodule
+      module siso_shift_register_tb;
+reg x,clk;
+wire y;
+siso_shift_register uut(x,clk,y);
+initial begin
+clk=1'b0;
+ forever#5 clk=~clk;
+
+  end 
+  initial begin
+    $dumpfile("siso_shift_register.vcd");
+    $dumpvars((1),siso_shift_register_tb);
+  end
+    
+  initial begin
+    
+  $monitor("clk=%d,x=%b,y=%b",clk,x,y);
+   x=1;#10 
+  // $display("x=%b,y=%b",x,y);
+   x=0;#10
+   //$display("x=%b,y=%b",x,y);
+   x=0;#10 
+   //$display("x=%b,y=%b",x,y);
+   x=1;#10 ;
+   //$display("x=%b,y=%b",x,y);
+  #80;
+  $finish;
+
+  end
+endmodule
