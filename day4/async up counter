@@ -1,0 +1,40 @@
+module up_down_counter_asynch(input clk,rst,up_down,output reg [3:0] count);
+  always@(posedge clk or posedge rst)begin
+  if(rst)
+    count <= 4'b0000;
+  else
+    if(up_down)
+     count <= count+1;
+    else
+      count <= count-1;
+  end
+endmodule
+module up_down_tb;
+  reg clk,rst,up_down;
+  wire [3:0] count;
+ 
+  up_down_counter_asynch uut (.clk(clk),.rst(rst),.up_down(up_down),.count(count));
+
+  initial begin
+    clk=0;
+    forever #5 clk=~clk;
+    
+  end
+  initial begin
+    $dumpfile("up_down_counter_asynch.vcd");
+    $dumpvars((1),up_down_tb);
+  end
+  initial begin
+    rst=1;
+   #10 up_down=1;
+   #10 rst =0;
+    #100 up_down=1;
+    //# up_down=0;
+   #100  $finish; 
+    
+    $monitor("input values :clk:%b,rst:%b,up_down:%b, output values: count:%b",clk,rst,up_down,count);
+  end
+endmodule
+    
+    
+   
