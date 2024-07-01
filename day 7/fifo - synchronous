@@ -1,0 +1,153 @@
+module fifo_sync (
+    input wire clk,         // Clock input
+    input wire rst,         // Reset input
+    input wire wr_en,       // Write enable input
+    input wire rd_en,       // Read enable input
+    input wire [7:0] data_in,  // Data input
+    output reg [7:0] data_out, // Data output
+    output reg full,            // Full flag
+    output reg empty            // Empty flag
+);
+
+parameter DEPTH = 8; // Depth of the FIFO
+
+reg [7:0] fifo [0:DEPTH-1];
+  reg [2:0]wr_ptr = 0;  // Write pointer
+  reg [2:0]rd_ptr = 0;  // Read pointer
+  reg [2:0]count = 0;   // Counter for number of elements in FIFO
+
+// Write process
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        wr_ptr <= 0;
+        full <= 0;
+    end else if (wr_en && !full) begin
+        fifo[wr_ptr] <= data_in;
+        wr_ptr <= wr_ptr + 1;
+        count <= count + 1;
+        full <= (count == DEPTH);
+    end
+end
+
+// Read process
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        rd_ptr <= 0;
+        emptymodule tb_fifo_sync();
+
+reg clk;
+reg rst;
+reg wr_en;
+reg rd_en;
+reg [7:0] data_in;
+wire [7:0] data_out;
+wire full;
+wire empty;
+
+fifo_sync uut (
+    .clk(clk),
+    .rst(rst),
+    .wr_en(wr_en),
+    .rd_en(rd_en),
+    .data_in(data_in),
+    .data_out(data_out),
+    .full(full),
+    .empty(empty)
+);
+
+initial begin
+  clk=0;
+  forever #5 clk=~clk;
+end
+  initial begin
+  $dumpfile("fifo_sync.vcd");
+  $dumpvars((1),tb_fifo_sync);
+  end
+  initial begin
+   // clk = 0;
+    rst = 1;
+    wr_en = 0;
+    rd_en = 0;
+    data_in = 8'b00000000;
+
+    // Reset
+    #10;
+    rst = 0;
+    #10;
+    rst = 0;
+
+    // Write data to FIFO
+    wr_en = 1;
+    rd_en=0;
+    #10;
+     wr_en = 1;
+    rd_en=0;
+    data_in = 8'b00000001;
+    #10;
+     wr_en = 1;
+    rd_en=1;
+    data_in = 8'b00000010;
+    #10;
+     wr_en = 1;
+    rd_en=0;
+    data_in = 8'b00000011;
+    #10;
+     wr_en = 1;
+    rd_en=0;
+    data_in=8'b00000100;
+    #10;
+    rd_en=1;
+     wr_en=0;
+    data_in=8'b00000101;
+    #10;
+    rd_en=1;
+     wr_en=0;
+      data_in=8'b00000110;
+    #10;
+    rd_en=1;
+     wr_en=0;
+      data_in=8'b10010001;
+    #10;
+    rd_en=1;
+     wr_en=0;
+      data_in=8'b10010001;
+    #10;
+    rd_en=1;
+     wr_en=0;
+      data_in=8'b10010001;
+    #10;
+    rd_en=1;
+     wr_en=0;
+ 
+
+ /*   // Read data from FIFO
+     rd_en = 1;
+    #10;
+     rd_en = 0;
+    #10;
+      rd_en = 1;
+    #10;
+    rd_en = 0;
+    #10;
+    rd_en = 0;
+    #10;
+*/
+    // Finish simulation
+  #500  $finish;
+end
+
+
+
+endmodule ;
+    end else if (rd_en && !empty) begin
+        data_out <= fifo[rd_ptr];
+        rd_ptr <= rd_ptr + 1;
+        count <= count - 1;
+        empty <= (count == 1);
+    end
+end
+
+endmodule
+
+
+      
