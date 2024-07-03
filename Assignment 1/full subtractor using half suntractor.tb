@@ -1,0 +1,18 @@
+module half_subtractor_tb;
+  reg a,b,bin;
+  wire diff,borr;
+  full_subtractor_using_half_subtractor uut(.a(a),.b(b),.bin(bin),.diff(diff),.borr(borr));
+  
+  initial begin
+    
+    a=0;b=0;bin=0;#10;
+    a=0;b=1;bin=0;#10;
+    a=1;b=0;bin=0;#10;
+    a=1;b=1;bin=0;#10;
+ 
+  $stop; #40;
+  end
+ initial 
+  $monitor("input values: a= %b,b=%b,output values : diff =%b,borr=%b",a,b,diff,borr);
+  
+    endmodule
