@@ -1,3 +1,6 @@
+7. Write RTL for designing a 2:4 encoder using behavior-level abstraction.
+
+
 module encoder(input [3:0]d,output [1:0]y );
 always@(d)begin
 case(*)
