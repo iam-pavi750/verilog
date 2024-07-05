@@ -1,0 +1,15 @@
+10. Find the bug if any in the following File write operation snippet.
+
+module test ;
+
+reg [5:0]channel ;
+reg a ;
+initial
+begin
+channel = $fopen(“file1.txt”);
+$monitor(channel,”a=%b”,a);
+end
+endmodule
+
+answer:f
+line 10 error
