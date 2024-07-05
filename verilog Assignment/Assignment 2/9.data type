@@ -1,5 +1,5 @@
 What will be displayed in the console mode for the below snippet?
-reg[13+8:1]s;
+reg[13:8:1]s;
 initial
 begin
 s= "hello world";
