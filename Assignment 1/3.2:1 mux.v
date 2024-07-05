@@ -1,3 +1,7 @@
+3.Write RTL for designing a 2:1 mux using gate-level abstraction.
+
+
+
 module mux2_1(input a,b,sel,output y );
   
   wire t1,t2,selbar;
