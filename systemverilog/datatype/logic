@@ -1,0 +1,9 @@
+module logicdata;
+  logic [2:0] logicdatatype;
+  initial begin
+    logicdatatype = 3'b101;
+    $display("value:%b",logicdatatype);
+  end
+endmodule
+
+    output  value:101
