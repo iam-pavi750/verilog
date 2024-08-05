@@ -1,0 +1,27 @@
+class home; 
+  bit light;
+  string switch;
+  byte fan;
+
+
+task  openelectricity();
+  switch = "on";
+  $display(" switch: %s",switch);
+  
+endtask
+endclass
+
+module hometb;
+   home h1;
+  
+  initial begin
+    h1 = new();
+    if(h1 == null)
+      $display("empty");
+    else
+      $display("full");
+  end
+endmodule
+
+
+# KERNEL: full
