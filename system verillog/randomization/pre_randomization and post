@@ -1,0 +1,34 @@
+class packet;
+  rand bit [3:0] addr;
+  randc bit data;
+        bit memory;
+  function void pre_randomize();
+   if (memory ==1)
+      addr.rand_mode(0);
+    else
+      addr.rand_mode(1);
+    
+    
+  endfunction
+  function void post_randomize();
+     memory = data;
+    $display( "addr = %d,data = %d",addr,data);
+  endfunction
+  
+endclass
+
+initial begin
+  packet p1;
+  p1 = new();
+  repeat(4)
+  p1.randomize();
+  
+end
+endmodule
+  
+    # KERNEL: addr =  6,data = 1
+# KERNEL: addr =  3,data = 0
+# KERNEL: addr =  4,data = 1
+# KERNEL: addr = 13,data = 0
+    
+
