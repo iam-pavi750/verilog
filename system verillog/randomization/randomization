@@ -1,0 +1,32 @@
+class packet;
+  rand bit[3:0]addr;
+  randc bit[3:0]data;
+endclass
+
+module packettb;
+  initial begin
+    packet p1;
+    p1 =new();
+    repeat(16) begin
+      p1.randomize();
+      $display("addr = %d,data = %d",p1. addr,p1.data);
+  end
+  end
+endmodule
+
+# KERNEL: addr = 14,data =  4
+# KERNEL: addr =  9,data = 11
+# KERNEL: addr =  5,data =  3
+# KERNEL: addr =  3,data = 13
+# KERNEL: addr = 15,data = 10
+# KERNEL: addr = 14,data =  0
+# KERNEL: addr =  6,data =  2
+# KERNEL: addr =  2,data =  5
+# KERNEL: addr =  7,data =  8
+# KERNEL: addr =  4,data =  6
+# KERNEL: addr = 11,data =  9
+# KERNEL: addr =  7,data =  1
+# KERNEL: addr = 13,data = 15
+# KERNEL: addr = 12,data = 12
+# KERNEL: addr =  3,data = 14
+# KERNEL: addr =  3,data =  7
