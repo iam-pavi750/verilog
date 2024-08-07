@@ -1,8 +1,8 @@
 class operation;
   
-  rand logic  a;
-  rand logic  b;
-  rand logic c;
+  logic  a;
+ logic  b;
+ logic c;
   bit  sum;
   bit carry;
   
