@@ -1,4 +1,4 @@
-class transaction;
+class operation;
   
   rand logic  a;
   rand logic  b;
