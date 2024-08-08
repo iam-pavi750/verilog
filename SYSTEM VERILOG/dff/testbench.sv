@@ -19,13 +19,16 @@ module dff;
   end
   initial begin
     inte.clk = 0;
-    inte.rst = 0;
+ 
     forever #5 inte.clk = ~inte.clk;
-    #10 inte.rst=1;
-    #20 inte.rst=0;
     
   end
   
+  initial begin
+     inte.rst = 0;
+      #10 inte.rst=1;
+    #20 inte.rst=0;
+  end
   
    initial
      begin
