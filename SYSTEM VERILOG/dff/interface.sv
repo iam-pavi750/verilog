@@ -1,4 +1,4 @@
-interface interfaces;
+ interface interfaces;
   
   logic d;
   logic clk;
