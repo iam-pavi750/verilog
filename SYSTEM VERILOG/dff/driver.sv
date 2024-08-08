@@ -9,7 +9,7 @@ class driver;
       endfunction
       
       task drive;
-        repeat(5) begin
+        repeat(4) begin
           
           trans = new();
           mail.get(trans);
