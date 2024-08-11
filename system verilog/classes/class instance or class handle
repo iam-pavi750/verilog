@@ -1,0 +1,24 @@
+class instances;
+  int light;
+  bit fans;
+  string switch;
+  
+  task open_electricity();
+    switch = "on";
+    $display("open electricity is %s",switch);
+  endtask
+endclass
+
+module tb;
+     instances t1;
+  initial begin
+    
+  if(t1==null)
+  $display("object is not created");
+  else
+    $display("object is created");
+  end
+endmodule
+
+
+object is created
