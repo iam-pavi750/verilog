@@ -19,7 +19,34 @@ value of a is a[7] = 1
 
 
 
+module multi_packed;
+  int a[3][4];
+ 
+  initial begin
+   foreach (a[i])begin
+    foreach (a[i][j])begin
+      a[i][j] = $urandom_range(10,50);
+         
+      
+      $display(" value of a[%0d][%0d] = %d",i,j,a[i][j]);
+   
+  end
+  end
+  end
+endmodule
 
+ value of a[0][0] =          44
+# KERNEL:  value of a[0][1] =          40
+# KERNEL:  value of a[0][2] =          42
+# KERNEL:  value of a[0][3] =          16
+# KERNEL:  value of a[1][0] =          43
+# KERNEL:  value of a[1][1] =          28
+# KERNEL:  value of a[1][2] =          24
+# KERNEL:  value of a[1][3] =          32
+# KERNEL:  value of a[2][0] =          47
+# KERNEL:  value of a[2][1] =          30
+# KERNEL:  value of a[2][2] =          41
+# KERNEL:  value of a[2][3] =          11
 
 
 
