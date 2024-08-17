@@ -16,3 +16,31 @@ value of a is a[4] = 4
 value of a is a[5] = 3
 value of a is a[6] = 2
 value of a is a[7] = 1
+
+
+
+
+
+
+
+displaying output in one line
+module unpacked_array;
+  int a[8];
+  initial begin
+    a ='{8,7,6,5,4,3,2,1};
+    foreach (a[i]) begin
+      $display(" value of a is= %p",a);
+    end
+  end
+endmodule
+
+# KERNEL:  value of a is= '{8, 7, 6, 5, 4, 3, 2, 1}
+# KERNEL:  value of a is= '{8, 7, 6, 5, 4, 3, 2, 1}
+# KERNEL:  value of a is= '{8, 7, 6, 5, 4, 3, 2, 1}
+# KERNEL:  value of a is= '{8, 7, 6, 5, 4, 3, 2, 1}
+# KERNEL:  value of a is= '{8, 7, 6, 5, 4, 3, 2, 1}
+# KERNEL:  value of a is= '{8, 7, 6, 5, 4, 3, 2, 1}
+# KERNEL:  value of a is= '{8, 7, 6, 5, 4, 3, 2, 1}
+# KERNEL:  value of a is= '{8, 7, 6, 5, 4, 3, 2, 1}
+
+
