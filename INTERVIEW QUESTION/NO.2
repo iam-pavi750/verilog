@@ -1,0 +1,25 @@
+WRITE A CODE TO  FIND FACTORIAL NUMBER
+
+module factorial_example;
+
+  function int factorial(input int n);
+   int result = 1;
+    for (int i = 2; i <= n; i++) begin
+    result = result * i;
+    end
+    return result;
+  endfunction
+
+  initial begin
+    int num = 5;
+    int fact_result;
+    
+    // Calculate factorial
+    fact_result = factorial(num);
+    
+    // Display the result
+    $display("Factorial of %0d is %0d", num, fact_result);
+  end
+
+endmodule
+ Factorial of 5 is 120
