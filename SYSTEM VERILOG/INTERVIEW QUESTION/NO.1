@@ -1,0 +1,40 @@
+DERIVE A ODD NUMBERS WITHIN THE RANGE OF 10 TO 30 USING SV CONSTRAINT
+class OddNumber;
+  rand int number;
+
+  // Constraint to ensure the number is within the range 10 to 30 and is odd
+  constraint odd_c {
+    number >= 11;
+    number <= 29;
+    number % 2 == 1;  // Ensures the number is odd
+  }
+
+endclass
+
+module test;
+
+  initial begin
+    OddNumber odd_num = new();
+    
+    // Generate 10 random odd numbers within the specified range
+    for (int i = 0; i < 10; i++) begin
+      if (odd_num.randomize()) begin
+        $display("Random odd number: %0d", odd_num.number);
+      end else begin
+        $error("Randomization failed.");
+      end
+    end
+  end
+
+endmodule
+
+Random odd number: 19
+# KERNEL: Random odd number: 23
+# KERNEL: Random odd number: 19
+# KERNEL: Random odd number: 17
+# KERNEL: Random odd number: 19
+# KERNEL: Random odd number: 13
+# KERNEL: Random odd number: 11
+# KERNEL: Random odd number: 25
+# KERNEL: Random odd number: 17
+# KERNEL: Random odd number: 25
