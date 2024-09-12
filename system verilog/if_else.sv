@@ -14,4 +14,9 @@ initial begin
   $display ("Out of if else block");
 end 
  
-endmodule 
+endmodule
+
+KERNEL: Assign the value of a = -1 
+# KERNEL: -------------------------------------
+# KERNEL: Number is negative
+# KERNEL: Out of if else block
