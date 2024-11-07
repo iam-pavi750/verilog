@@ -1,0 +1,29 @@
+module packed_fixed_size_array; // support user defined vector size & continuous assigned
+  wire [7:0] array;  // Use `wire` for continuous assignment
+
+  // Continuous assignment for `array`
+  assign array = 8'b10101010;
+
+  initial begin
+    #1
+    // Display the `array` value in decimal format
+    $display("array = %0d", array);
+  end
+endmodule
+
+output : 170 
+
+conversion
+
+| 1 | 0 | 1 | 0 | 1 | 0 | 1 | 0 |
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |  <-- Bit positions
+
+(1 * 2^7) + (0 * 2^6) + (1 * 2^5) + (0 * 2^4) + (1 * 2^3) + (0 * 2^2) + (1 * 2^1) + (0 * 2^0)
+
+(1 * 128) + (0 * 64) + (1 * 32) + (0 * 16) + (1 * 8) + (0 * 4) + (1 * 2) + (0 * 1)
+= 128 + 32 + 8 + 2 = 170
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
